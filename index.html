@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>QRMaster</title>
+<link rel="icon" type="image/png" href="master.png">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #0f0f0f;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.page {
+    display: none;
+    text-align: center;
+}
+
+.active {
+    display: block;
+}
+
+img {
+    width: 160px;
+    margin-bottom: 20px;
+}
+
+.description {
+    color: #aaa;
+    margin-bottom: 30px;
+}
+
+.buttons {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+}
+
+button {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.download {
+    background: #0066ff;  /* Zmienione z #ff5500 na niebieski */
+    color: white;
+}
+
+.github {
+    background: #222;
+    color: white;
+}
+
+.confirm {
+    background: #ff5500;
+    color: white;
+}
+
+button:hover {
+    transform: scale(1.05);
+}
+
+.box {
+    background: #1a1a1a;
+    padding: 40px;
+    border-radius: 12px;
+    width: 300px;
+    border: 1px solid #ff5500;
+}
+</style>
+</head>
+
+<body>
+
+<!-- HOME -->
+<div id="homePage" class="page active">
+    <img src="master.png" alt="Logo">
+    <div class="description">
+        QRMaster Stwórz kod QR za darmo.
+    </div>
+
+    <div class="buttons">
+        <button class="download" onclick="goDownload()">
+            <i class="fa-solid fa-download"></i> Pobierz
+        </button>
+
+        <button class="github" onclick="goGithub()">
+            <i class="fa-brands fa-github"></i> GitHub
+        </button>
+    </div>
+</div>
+
+<!-- DOWNLOAD -->
+<div id="downloadPage" class="page">
+    <div class="box">
+        <h2><b>Fire Client</b></h2>
+        <p>Pełna wersja klienta z wszystkimi funkcjami.</p>
+
+        <button class="confirm" onclick="downloadFile()">
+            <i class="fa-solid fa-arrow-right"></i> Potwierdź
+        </button>
+    </div>
+</div>
+
+<script>
+
+const originalTitle = "QRMaster";
+
+// Zmiana strony na Download
+function goDownload() {
+    document.getElementById("homePage").classList.remove("active");
+    document.getElementById("downloadPage").classList.add("active");
+
+    history.pushState({page: "download"}, "", "/download");
+}
+
+// GitHub
+function goGithub() {
+    window.open("https://github.com/twojprofil/twojprojekt", "_blank");
+}
+
+// Pobieranie
+function downloadFile() {
+    window.open("https://www.mediafire.com/file/example/fireclient.jar/file", "_blank");
+}
+
+// Obsługa cofania w przeglądarce
+window.onpopstate = function(event) {
+    if (!event.state || event.state.page !== "download") {
+        document.getElementById("downloadPage").classList.remove("active");
+        document.getElementById("homePage").classList.add("active");
+    }
+};
+
+// Zmiana tytułu gdy karta nieaktywna
+document.addEventListener("visibilitychange", function() {
+    if (document.hidden) {
+        document.title = "Już nas opuszczasz? | QRMaster";
+    } else {
+        document.title = originalTitle;
+    }
+});
+
+</script>
+
+</body>
+</html>
